@@ -18,6 +18,7 @@ class prisoner:
     self.scores = m.reshape(self.size,self.size)
     self.row_labels = self.generate_labels(self.size)
     self.col_labels = self.generate_labels(self.size)
+    self.corr={0:'C',1:'D'}
 
   def generate_labels(self, labels_num):
     return list(range(labels_num))
@@ -62,17 +63,29 @@ class prisoner:
 
 
   def nashEq(self):
-        equilibriums = self.equilibrium()
-        for s in equilibriums:
-            print("Player 1 plays", s[0], "and Player 2 plays", s[1])
-        if len(equilibriums) == 0:
-            print("No pure strategies")
+    equilibriums = self.equilibrium()
+    for s in equilibriums:
+        print("Player 1 plays", self.corr[s[0]], "and Player 2 plays", self.corr[s[1]])
+    if len(equilibriums) == 0:
+        print("No pure strategies")
 
+  def dominant(self):
+    max_ele=0
+    for c in range(self.size):
+      for r in range(self.size):
+        if(self.scores[r][c][0]>max_ele):
+          row_pos=r
+          max_ele=self.scores[r][c][0]
+      save_row=row_pos
+    if(row_pos==save_row):
+      print(self.corr[row_pos]+" is dominant strategy")
+    
 
 
 p=prisoner(3,0,5,1,'C','D')
-# p.matrixPrint()
+p.matrixPrint()
 p.nashEq()
+p.dominant()
 
 
 #  https://github.com/david138/Nash-Equilibrium/tree/master/src
